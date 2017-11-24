@@ -9,7 +9,7 @@ extension String {
 
 public class InternetViewIndicator {
     
-    private var _reachability: Reachability?
+    private(set) var reachability: Reachability?
     private var status:MessageView
     
     init(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .statusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", remoteHostName: String = "apple.com") {
@@ -41,12 +41,12 @@ public class InternetViewIndicator {
     func setupReachability(_ hostName: String?) {
         
         let reachability = hostName == nil ? Reachability() : Reachability(hostname: hostName!)
-        self._reachability = reachability
+        self.reachability = reachability
         NotificationCenter.default.addObserver(self, selector: #selector(InternetViewIndicator.reachabilityChanged(_:)), name: NSNotification.Name.reachabilityChanged, object: reachability)
     
     }
     
-    @objc func reachabilityChanged(_ note: Notification) {
+    @objc open func reachabilityChanged(_ note: Notification) {
         
         let reachability = note.object as! Reachability
         
@@ -63,16 +63,16 @@ public class InternetViewIndicator {
     
     func startNotifier() {
         do {
-            try _reachability?.startNotifier()
+            try reachability?.startNotifier()
         } catch {
             return
         }
     }
     
     func stopNotifier() {
-        _reachability?.stopNotifier()
+        reachability?.stopNotifier()
         NotificationCenter.default.removeObserver(self, name: .reachabilityChanged, object: nil)
-        _reachability = nil
+        reachability = nil
     }
     
 }
