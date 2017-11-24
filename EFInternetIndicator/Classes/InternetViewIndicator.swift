@@ -9,7 +9,7 @@ extension String {
 
 public class InternetViewIndicator {
     
-    private(set) var reachability: Reachability?
+    public private(set) var reachability: Reachability?
     private var status:MessageView
     
     init(backgroundColor:UIColor = UIColor.red, style: MessageView.Layout = .statusLine, textColor:UIColor = UIColor.white, message:String = "Please, check your internet connection", remoteHostName: String = "apple.com") {
@@ -46,7 +46,7 @@ public class InternetViewIndicator {
     
     }
     
-    @objc open func reachabilityChanged(_ note: Notification) {
+    @objc func reachabilityChanged(_ note: Notification) {
         
         let reachability = note.object as! Reachability
         
